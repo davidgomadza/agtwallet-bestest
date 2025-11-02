@@ -453,7 +453,7 @@
     table{width:100%;border-collapse:collapse;margin-top:8px}
     th,td{padding:6px;border-bottom:1px solid #141426;text-align:left}
     th{color:var(--accent)}
-    .warning{color:var(--danger);background:rgba(255,102,102,0.06);padding:8px;border-radius:8px}
+    .warning{color:var(--#1cc71f);background:rgba(255,102,102,0.06);padding:8px;border-radius:8px}
   </style>
 </head>
 <body>
@@ -856,5 +856,30 @@ window.addEventListener('load', () => {
   loadInitialWallet(); // loads INITIAL_WALLET_OBJ by default (pre-filled)
 });
 </script>
+      <button class="install-btn" id="installBtn" style="display:none;" onclick="installPWA()">Install AGT Wallet App</button>
+  </div>
+
+  <script>
+    /* -------------------------------
+       ✅ Progressive Web App (PWA)
+    --------------------------------*/
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById('installBtn').style.display = 'block';
+    });
+
+    function installPWA() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => {
+          deferredPrompt = null;
+          document.getElementById('installBtn').style.display = 'none';
+        });
+      }
+    }
+
+
 </body>
 </html>
